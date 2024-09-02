@@ -1,0 +1,60 @@
+<section class="py-5" *ngIf="products.length > 0">
+  <h1>Shop Popular Products</h1>
+  <div class="row g-4">
+    <div
+      *ngFor="let product of products"
+      class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
+    >
+      <div class="products h-100">
+        <!-- ADD -->
+        <i
+          *ngIf="!wishList.includes(product._id)"
+          role="button"
+          (click)="addFav(product._id)"
+          style="color: #0aad0a"
+          class="fa-regular fa-heart heart"
+        ></i>
+        <!-- REMOVE -->
+        <i
+          *ngIf="wishList.includes(product._id)"
+          role="button"
+          (click)="removeFav(product._id)"
+          style="color: #0aad0a"
+          class="fa-solid fa-heart-circle-xmark heart"
+        ></i>
+        <header role="button" [routerLink]="['/detailes', product._id]">
+          <img
+            class="w-100"
+            [src]="product.imageCover"
+            [title]="product.title"
+            [alt]="product.title"
+          />
+          <h3 class="small">{{ product.title | cuttext : 3 }}</h3>
+          <h4 class="h6 text-main">{{ product.category.name }}</h4>
+          <div
+            class="d-flex align-content-center justify-content-between small"
+          >
+            <span>{{ product.price | currency : "e£" }}</span>
+            <p class="mb-0">
+              <i
+                [class.rating-color]="product.ratingsAverage >= num"
+                *ngFor="let num of [1, 2, 3, 4, 5]"
+                class="fas fa-star"
+              ></i>
+              <span class="text-muted"> {{ product.ratingsAverage }}</span>
+            </p>
+          </div>
+        </header>
+        <footer>
+          <button
+            (click)="addProduct(product._id, btnAdd)"
+            #btnAdd
+            class="main-btn w-100 py-2"
+          >
+            Add To Cart
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
